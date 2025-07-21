@@ -7,6 +7,7 @@
       <script src="https://cdn.tailwindcss.com"></script>
       <link rel="stylesheet" href="style.css" />
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
    </head>
    <body class="overflow-x-hidden bg-gray-50">
       <!-- Header arka plan -->
@@ -62,9 +63,45 @@
                   </button>
                </div>
                <div id="fixedMenu" onclick="openSidebar()" class="md:hidden bg-orange-600/90 p-2 cursor-pointer hover:bg-orange-600 transform-colors duration-300 z-10">
-                  <svg class="w-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="matrix(-1, 0, 0, 1, 0, 0)" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3 12H15M3 6H21M3 18H21" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                  <svg class="w-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="matrix(-1, 0, 0, 1, 0, 0)" stroke="#ffffff">
+                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                     <g id="SVGRepo_iconCarrier"><path d="M3 12H15M3 6H21M3 18H21" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g>
+                  </svg>
                </div>
             </nav>
+            <!-- Modal -->
+            <div id="requestModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" onclick="closeReqModal(event)">
+            <!-- Modal İçerik Kutusu -->
+            <div class="request-modal bg-white rounded-2xl shadow-lg w-full max-w-md p-6 space-y-4" onclick="event.stopPropagation()">
+               <h2 class="text-xl font-semibold text-gray-800 text-center">Отправить заявку</h2>
+
+               <!-- İsim Soyisim -->
+               <div>
+                  <label class="block text-sm text-gray-700 mb-1">Имя и фамилия</label>
+                  <input type="text" placeholder="Ваше имя" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
+               </div>
+
+               <!-- Email -->
+               <div>
+                  <label class="block text-sm text-gray-700 mb-1">Электронная почта</label>
+                  <input type="email" placeholder="example@mail.com" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
+               </div>
+
+               <!-- Telefon -->
+               <div>
+                  <label class="block text-sm text-gray-700 mb-1">Телефон</label>
+                  <input type="tel" placeholder="+7 999 123 45 67" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
+               </div>
+
+               <!-- Gönder Butonu -->
+               <div class="pt-2">
+                  <button class="w-full bg-orange-600 text-white font-semibold py-2 rounded-lg hover:bg-orange-700 transition-colors duration-300">
+                  Отправить
+                  </button>
+               </div>
+            </div>
+            </div>
          </div>
          <!-- Mobile/Tablet Sidebar -->
          <div id="sidebar" class="fixed top-0 right-0 h-full w-80 bg-[#202020] shadow-2xl z-50 transform translate-x-full transition-transform duration-300 lg:hidden">
@@ -147,7 +184,7 @@
                   с помощью франчайзинга
                </h2>
                <div class="w-full flex max-sm:justify-center gap-3">
-                  <a href="#" class="max-w-[240px] px-5 text-center py-2 text-white text-[18px] rounded-lg font-[600] bg-[#ff6a2c] hover:bg-[#fe530c] transition-colors duration-[.3s]">Записаться на консультацию</a>
+                  <a href="#" onclick="openReqModal()" class="max-w-[240px] px-5 text-center py-2 text-white text-[18px] rounded-lg font-[600] bg-[#ff6a2c] hover:bg-[#fe530c] transition-colors duration-[.3s]">Записаться на консультацию</a>
                   <svg xmlns="http://www.w3.org/2000/svg" width="50" height="46" viewBox="0 0 50 46" fill="none">
                      <path
                         fill-rule="evenodd"
@@ -707,7 +744,7 @@
       </section>
 
       <section class="my-10 container mx-auto w-full md:w-[1200px]">
-         <h1 class="text-[42px] uppercase text-center font-[600]">
+         <h1 class="text-[42px] uppercase text-center font-[600] mb-16">
             МЫ На практике знаем,<br />
             <span class="text-[#ff6a2c]"> как запустить успешную франшизу</span>
          </h1>
@@ -986,7 +1023,7 @@
             </div>
             <div class="bg-white rounded-2xl shadow-lg p-8 w-[350px]">
                <p class="text-lg mb-6">Ответьте на 3 вопроса, чтобы получить консультацию</p>
-               <button class="w-full bg-[#FF5C2E] text-white py-4 rounded-xl text-lg font-semibold">Ответить</button>
+               <button  onclick="openReqModal()" class="w-full bg-[#FF5C2E] text-white py-4 rounded-xl text-lg font-semibold">Ответить</button>
             </div>
          </div>
 
@@ -1126,7 +1163,7 @@
             </div>
             <div class="bg-white rounded-2xl shadow-lg p-8 w-[350px]">
                <p class="text-lg mb-6">Ответьте на 3 вопроса, чтобы получить консультацию</p>
-               <button class="w-full bg-[#FF5C2E] text-white py-4 rounded-xl text-lg font-semibold">Ответить</button>
+               <button onclick="openReqModal()" class="w-full bg-[#FF5C2E] text-white py-4 rounded-xl text-lg font-semibold">Ответить</button>
             </div>
          </div>
 
@@ -1144,6 +1181,130 @@
 
          <!-- Arka Plan Yazısı (Opsiyonel) -->
          <div class="absolute bottom-0 left-0 text-[200px] opacity-80 font-bold text-white"><img src="https://static.tildacdn.com/tild6666-3131-4564-b034-386365613432/Group_1000002817.svg" alt="" /></div>
+      </section>
+
+      <section class="container mx-auto w-full md:w-[1200px] my-16">
+         <div class="w-full flex justify-between">
+            <h2 class="text-[42px] uppercase font-[600] leading-[44px]">Часто задаваемые вопросы о франшизе:</h2>
+            <div class="w-full flex flex-col space-y-3">
+<!-- Accordion Item -->
+            <div class="accordion-item border-b">
+               <div class="accordion-header flex justify-between items-center py-4 cursor-pointer">
+               <h3 class="text-[22px] font-[500]">Зачем нужна франшиза?</h3>
+               <span class="toggle-icon text-2xl">×</span>
+               </div>
+               <div class="accordion-content text-sm text-gray-700 pb-4">
+               Франшиза нужна, чтобы быстро и без огромных финансовых вложений создать федеральную сеть. Франчайзинговая сеть даёт дистрибуцию вашего товара через франчайзинговые точки по стране и миру. А в случае с услугами позволяет сделать бренд узнаваемым и увеличить лояльность клиентов.
+               </div>
+            </div>
+
+            <!-- Other Items -->
+            <div class="accordion-item border-b">
+               <div class="accordion-header flex justify-between items-center py-4 cursor-pointer">
+               <h3 class="text-[22px] font-[500]">Мой бизнес подходит под франшизу?</h3>
+               <span class="toggle-icon text-2xl">+</span>
+               </div>
+               <div class="accordion-content text-sm text-gray-700 pb-4 hidden">
+               Чтобы получить ответ на этот вопрос, вам необходимо заполнить бриф или получить бесплатную консультацию по телефону:<br>
+               +7 968 643-07-79<br>
+               Василь Газизулин, основатель компании Topfranchise.<br><br>
+
+               Предварительно вы можете задать себе следующие вопросы:<br>
+               1. Вы получаете прибыль от бизнеса?<br>
+               2. Как ведётся учёт? Внедрена ли система автоматизации продаж и работы с клиентом?<br>
+               3. Какие сильные стороны у вашей компании?<br>
+               4. Вы планируете увеличить количество филиалов для сбыта продукции?<br>
+               5. У вас есть желание построить федеральный или международный бизнес?<br><br>
+
+               Подробный бриф можно запросить у наших менеджеров по телефону или электронной почте:<br>
+               Ирина Холявина <a class="text-[#ff6a2c]" href="mailto:irina.zu@topfranchise.ru">irina.zu@topfranchise.ru</a><br>
+               Татьяна Бармина <a class="text-[#ff6a2c]" href="mailto:tatyana@topfranchise.ru">tatyana@topfranchise.ru</a><br>
+               </div>
+            </div>
+
+            <div class="accordion-item border-b">
+               <div class="accordion-header flex justify-between items-center py-4 cursor-pointer">
+               <h3 class="text-[22px] font-[500]">Что нужно, чтобы начать создание франшизы?</h3>
+               <span class="toggle-icon text-2xl">+</span>
+               </div>
+               <div class="accordion-content text-sm text-gray-700 pb-4 hidden">
+               До начала работы мы должны оценить ваш бизнес, готов ли он к масштабированию по франшизе.<br>
+               Для этого нужно заполнить наш бриф, его можно запросить у наших менеджеров по телефону или электронной почте:<br>
+               Подробный бриф можно запросить у наших менеджеров по телефону или электронной почте:<br>
+               Ирина Холявина <a class="text-[#ff6a2c]" href="mailto:irina.zu@topfranchise.ru">irina.zu@topfranchise.ru</a><br>
+               Татьяна Бармина <a class="text-[#ff6a2c]" href="mailto:tatyana@topfranchise.ru">tatyana@topfranchise.ru</a><br>
+               </div>
+            </div>
+
+            <div class="accordion-item border-b">
+               <div class="accordion-header flex justify-between items-center py-4 cursor-pointer">
+               <h3 class="text-[22px] font-[500]">Что такое стратегическая сессия и зачем она нужна?</h3>
+               <span class="toggle-icon text-2xl">+</span>
+               </div>
+               <div class="accordion-content text-sm text-gray-700 pb-4 hidden">
+               Это однодневное мероприятие, мозговой штурм по созданию франшизы. На ней присутствуют наши специалисты и ваши руководители подразделений, мы вместе формируем концепт работы по франшизе, УТП, форматы работы, анализируем экономические показатели, проводим анализ конкурентов по РФ и миру, разрабатываем стратегию выхода на рынок, обсуждаем юридические аспекты и продажи франшизы.
+               </div>
+            </div>
+
+            <div class="accordion-item border-b">
+               <div class="accordion-header flex justify-between items-center py-4 cursor-pointer">
+               <h3 class="text-[22px] font-[500]">Стратегия проходит онлайн или вы приезжаете к нам?</h3>
+               <span class="toggle-icon text-2xl">+</span>
+               </div>
+               <div class="accordion-content text-sm text-gray-700 pb-4 hidden">
+               Руководитель компании Василь Газизулин и наши специалисты, которые в дальнейшем формируют пакет франшизы, готовы приехать к вам в город для полного погружения в бизнес или провести стратегическую сессию онлайн.
+
+               </div>
+            </div>
+
+            <div class="accordion-item border-b">
+               <div class="accordion-header flex justify-between items-center py-4 cursor-pointer">
+               <h3 class="text-[22px] font-[500]">Сроки создания франшизы?</h3>
+               <span class="toggle-icon text-2xl">+</span>
+               </div>
+               <div class="accordion-content text-sm text-gray-700 pb-4 hidden">
+               Наша компания предлагает несколько пакетов по упаковке франшизы, выбор зависит от ваших целей. Если ваша цель — быстро начать продавать франшизу, проверить гипотезу, получить обратную связь по вашей франшизе, то мы рекомендуем наш пакет «Быстрый старт», это однодневная форсайт-стратегия. Через 14 после стратегии ваша франшиза появляется на нашем сайте Topfranchise.ru, и вы начинаете получать заявки на покупку в личном кабинете. Параллельно наши специалисты готовят необходимые документы, чтобы вы могли совершить первую продажу: презентацию, финансовую модель, одностраничный сайт о франшизе, календарный план открытия, договор коммерческой концессии или лицензионный договор, скрипт по обработке входящих лидов, анкету для партнёра, стратегию продвижения франшизы и самое важное — проработанное оглавление франчайзибука (перечень регламентов) и брендбука.<br><br>
+               Если вы уверены в том, что ваш бизнес подготовлен к экспансии на другую территорию, и вы готовы передать бесценный опыт ведения бизнеса, мы рекомендуем обратить внимание на пакет «Юридический». В этом пакете формируется основа вашей будущей франшизы.<br><br>
+               Вы получаете всю документацию, которая необходима для качественного запуска и успешного функционирования франшизы: франчайзибук, брендбук, договор франшизы.<br><br>
+               Это масштабная и качественная работа наших и ваших специалистов по созданию базы знаний, которая занимает 60–90 дней в зависимости от специфики бизнеса.
+               </div>
+            </div>
+
+            <div class="accordion-item border-b">
+               <div class="accordion-header flex justify-between items-center py-4 cursor-pointer">
+               <h3 class="text-[22px] font-[500]">Оказываете ли вы поддержку после упаковки?</h3>
+               <span class="toggle-icon text-2xl">+</span>
+               </div>
+               <div class="accordion-content text-sm text-gray-700 pb-4 hidden">
+               Специалисты нашей компании доступны по телефону и мессенджерах почти 24/7, основатель компании Василь Газизулин проводит тренинги по продажам франшизы для ваших специалистов, менеджеры проектов дают рекомендации по продвижению франшизы, юристы помогают провести переговоры, а менеджеры по продажам — закрыть на сделку.<br><br>
+               Мы регулярно организовываем мероприятия по франчайзингу, где представляем франшизы наших клиентов.
+               </div>
+            </div>
+            <div class="accordion-item border-b">
+               <div class="accordion-header flex justify-between items-center py-4 cursor-pointer">
+               <h3 class="text-[22px] font-[500]">Когда будет продана первая франшиза?</h3>
+               <span class="toggle-icon text-2xl">+</span>
+               </div>
+               <div class="accordion-content text-sm text-gray-700 pb-4 hidden">
+               Наш сайт <a class="text-[#ff6a2c]" href="https://topfranchise.ru" target="_blank">Topfranchise.ru</a> является самым крупным сайтом франшиз в России и странах СНГ. После проведения с нашими специалистами стратегической сессии по разработке концепции и стратегии выхода на рынок франшиз, мы анонсируем ваше предложение и настраиваем рекламную кампанию.<br><br>
+               Вы начинаете видеть обратную связь от рынка и получаете заявки в личном кабинете на сайте. Количество заявок зависит от специфики бизнеса, качества проделанной работы по упаковке франшизы и необходимых инвестиций.<br><br>
+               Качественными заявками с нашего сайта мы вас обеспечим.<br><br>
+               Ваша задача — найти хорошего менеджера по продажам, который сможет донести ценность франшизы и закрыть на сделку!<br><br>
+               Топ-10 ниш на рынке франшиз, которые получают больше всего заявок на покупку франшизы:<br>
+               1. Детское образование.<br>
+               2. Индустрия красоты. Здоровье и красота.<br>
+               3. Общественное питание. Фастфуд, кафе национальной и региональной кухни, семейные рестораны.<br>
+               4. Производство.<br>
+               5. Торговля.<br>
+               6. IT-сервисы и мобильные приложения.<br>
+               7. Доставка и еда навынос.<br>
+               8. Пекарни и кондитерские.<br>
+               9. Крафтовые продукты.<br>
+               10. Программирование и робототехника.
+               </div>
+            </div>
+            </div>
+         </div>
       </section>
 
       <!-- <section class="container mx-auto w-full md:w-[1200px] my-16">
@@ -1207,7 +1368,7 @@
          <div class="absolute top-12 right-12 flex gap-5">
             <div class="bg-white rounded-2xl shadow-lg p-8 w-[350px]">
                <p class="text-lg mb-6">Ответьте на 3 вопроса, чтобы получить консультацию</p>
-               <button class="w-full bg-[#FF5C2E] text-white py-4 rounded-xl text-lg font-semibold">Ответить</button>
+               <button onclick="openReqModal()" class="w-full bg-[#FF5C2E] text-white py-4 rounded-xl text-lg font-semibold">Ответить</button>
             </div>
          </div>
 
@@ -1298,19 +1459,18 @@
          });
       </script>
       <script>
-
          function toggleFixedMenu() {
             const isMobile = window.innerWidth < 768; // Tailwind'də md: 768px-dir
 
             if (window.scrollY > 110 && isMobile) {
-            fixedMenu.style.display = "block";
-            fixedMenu.style.position = "fixed";
-            fixedMenu.style.top = "20px"; // İstədiyiniz yerdə göstərə bilərsiniz
-            fixedMenu.style.right = "20px";
-            fixedMenu.style.zIndex = "1000";
+               fixedMenu.style.display = "block";
+               fixedMenu.style.position = "fixed";
+               fixedMenu.style.top = "20px"; // İstədiyiniz yerdə göstərə bilərsiniz
+               fixedMenu.style.right = "20px";
+               fixedMenu.style.zIndex = "1000";
             } else {
-            fixedMenu.style.display = "none";
-            fixedMenu.style.position = "static";
+               fixedMenu.style.display = "none";
+               fixedMenu.style.position = "static";
             }
          }
 
@@ -1318,5 +1478,40 @@
          window.addEventListener("resize", toggleFixedMenu); // Ekran ölçüsü dəyişəndə də yoxla
          toggleFixedMenu(); // İlk yüklənmədə də yoxla
       </script>
+
+      <script>
+         function openReqModal() {
+            document.getElementById("requestModal").classList.remove("hidden");
+         }
+
+         function closeReqModal(event) {
+            const modal = document.getElementById("requestModal");
+            if (event.target === modal) {
+               modal.classList.add("hidden");
+            }
+         }
+      </script>
+      <script>
+    $(document).ready(function () {
+      $(".accordion-item .accordion-header").click(function () {
+        const container = $(this).closest(".accordion-item");
+        const content = container.find(".accordion-content");
+        const icon = $(this).find(".toggle-icon");
+
+        // Diğer tüm içerikleri kapat
+        $(".accordion-item").not(container).find(".accordion-content").slideUp();
+        $(".accordion-item").not(container).find(".toggle-icon").text("+");
+
+        // Şu anki içeriği toggle yap
+        if (content.is(":visible")) {
+          content.slideUp();
+          icon.text("+");
+        } else {
+          content.slideDown();
+          icon.text("×");
+        }
+      });
+    });
+  </script>
    </body>
 </html>
