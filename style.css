@@ -143,3 +143,22 @@ body {
   font-weight: 400;
   font-style: normal;
 }
+
+::-webkit-scrollbar {
+  width: 16px; /* adjust width if needed */
+}
+
+::-webkit-scrollbar-track {
+  background: white; /* scrollbar trajectory */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ff6a2c; /* scrollbar itself */
+  border-radius: 6px;       /* optional: rounded edges */
+  border: 2px solid white;  /* optional: gives spacing inside the track */
+}
+
+/* Optional: Hover effect */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #f86222;
+}
