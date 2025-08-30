@@ -126,7 +126,7 @@
          <div class="request-modal mx-2 bg-white rounded-2xl shadow-lg w-full max-w-md p-6 relative" onclick="event.stopPropagation()">
             <!-- Header -->
             <div class="flex justify-between items-center border-b pb-2 mb-4">
-               <p class="text-sm text-gray-600" id="progressText">1/4</p>
+               <p class="text-sm text-gray-600" id="progressText">1/5</p>
                <button id="modalCloseButton" onclick="closeReqModal(event)" class="text-gray-400 hover:text-gray-600 text-xl font-bold focus:outline-none">&times;</button>
             </div>
 
@@ -137,29 +137,6 @@
             <div class="flex justify-between items-center mt-6">
                <button id="prevBtn" onclick="prevStep()" class="px-4 py-2 bg-gray-200 rounded-lg text-gray-700" disabled>Назад</button>
                <button id="nextBtn" onclick="nextStep()" class="px-4 py-2 bg-[#ff5722] text-white rounded-lg disabled:opacity-50">Далее →</button>
-            </div>
-         </div>
-      </div>
-
-      <!-- Senin bana gönderdiğin hazır modal (son adımda açılacak) -->
-      <div id="finalModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden" onclick="closeFinalModal(event)">
-         <div class="request-modal mx-2 bg-white rounded-2xl shadow-lg w-full max-w-md p-6 space-y-4 relative" onclick="event.stopPropagation()">
-            <button id="finalCloseButton" onclick="closeFinalModal(event)" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl font-bold focus:outline-none">&times;</button>
-            <h2 class="text-xl font-semibold text-gray-800 text-center">Отправить заявку</h2>
-            <div>
-               <label class="block text-sm text-gray-700 mb-1">Имя и фамилия</label>
-               <input type="text" placeholder="Ваше имя" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#da424e]" />
-            </div>
-            <div>
-               <label class="block text-sm text-gray-700 mb-1">Электронная почта</label>
-               <input type="email" placeholder="example@mail.com" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#da424e]" />
-            </div>
-            <div>
-               <label class="block text-sm text-gray-700 mb-1">Телефон</label>
-               <input type="tel" placeholder="+7 999 123 45 67" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#da424e]" />
-            </div>
-            <div class="pt-2">
-               <button class="w-full bg-[#0657be] text-white font-semibold py-2 rounded-lg hover:bg-blue-900 transition-colors duration-300">Отправить</button>
             </div>
          </div>
       </div>
@@ -1440,18 +1417,20 @@
       </script>
       <script>
          let currentStep = 1;
-         const totalSteps = 4;
+         const totalSteps = 5;
          const stepContent = document.getElementById("stepContent");
          const nextBtn = document.getElementById("nextBtn");
          const prevBtn = document.getElementById("prevBtn");
          const progressText = document.getElementById("progressText");
 
-         // Kullanıcı girdilerini saklamak için
          let formData = {
             city: "",
             business: "",
             company: "",
             points: "",
+            fullname: "",
+            email: "",
+            phone: "",
          };
 
          const steps = [
@@ -1459,13 +1438,49 @@
             { label: "Укажите сферу бизнеса", placeholder: "Например: Ресторан", name: "business" },
             { label: "Укажите название компании", placeholder: "Название компании", name: "company" },
             { label: "Укажите количество баллов", placeholder: "Например: 120", name: "points", type: "number" },
+            {
+               custom: `
+      <h2 class="text-xl font-semibold text-gray-800 text-center">Отправить заявку</h2>
+      <div>
+        <label class="block text-sm text-gray-700 mb-1">Имя и фамилия</label>
+        <input type="text" id="fullname" placeholder="Ваше имя"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#da424e]" />
+      </div>
+      <div>
+        <label class="block text-sm text-gray-700 mb-1">Электронная почта</label>
+        <input type="email" id="email" placeholder="example@mail.com"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#da424e]" />
+      </div>
+      <div>
+        <label class="block text-sm text-gray-700 mb-1">Телефон</label>
+        <input type="tel" id="phone" placeholder="+7 999 123 45 67"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#da424e]" />
+      </div>
+      <div class="pt-2">
+        <button id="submitBtn" onclick="submitForm()" disabled
+          class="w-full bg-[#0657be] text-white font-semibold py-2 rounded-lg opacity-50 cursor-not-allowed transition-colors duration-300">
+          Отправить
+        </button>
+      </div>
+    `,
+            },
          ];
 
          function renderStep() {
             const step = steps[currentStep - 1];
             progressText.textContent = `${currentStep}/${totalSteps}`;
 
-            stepContent.innerHTML = `
+            if (step.custom) {
+               stepContent.innerHTML = step.custom;
+               nextBtn.classList.add("hidden");
+
+               ["fullname", "email", "phone"].forEach((id) => {
+                  document.getElementById(id).addEventListener("input", validateFinalStep);
+               });
+
+               validateFinalStep();
+            } else {
+               stepContent.innerHTML = `
       <label class="block text-lg font-semibold text-gray-800 mb-2">${step.label}</label>
       <input type="${step.type || "text"}" 
              id="stepInput" 
@@ -1474,16 +1489,16 @@
              value="${formData[step.name] || ""}"
              class="w-full border-b border-gray-300 focus:outline-none focus:border-[#ff5722] py-2" />
     `;
+               nextBtn.classList.remove("hidden");
+               prevBtn.disabled = currentStep === 1;
 
-            prevBtn.disabled = currentStep === 1;
-
-            const input = document.getElementById("stepInput");
-            input.addEventListener("input", () => {
-               formData[step.name] = input.value.trim();
+               const input = document.getElementById("stepInput");
+               input.addEventListener("input", () => {
+                  formData[step.name] = input.value.trim();
+                  validateInput();
+               });
                validateInput();
-            });
-
-            validateInput();
+            }
          }
 
          function validateInput() {
@@ -1491,13 +1506,25 @@
             nextBtn.disabled = !input.value.trim();
          }
 
+         function validateFinalStep() {
+            const fullname = document.getElementById("fullname").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const btn = document.getElementById("submitBtn");
+
+            if (fullname && email && phone) {
+               btn.disabled = false;
+               btn.classList.remove("opacity-50", "cursor-not-allowed");
+            } else {
+               btn.disabled = true;
+               btn.classList.add("opacity-50", "cursor-not-allowed");
+            }
+         }
+
          function nextStep() {
             if (currentStep < totalSteps) {
                currentStep++;
                renderStep();
-            } else {
-               document.getElementById("requestModal").classList.add("hidden");
-               document.getElementById("finalModal").classList.remove("hidden");
             }
          }
 
@@ -1510,7 +1537,7 @@
 
          function openReqModal() {
             currentStep = 1;
-            formData = { city: "", business: "", company: "", points: "" }; // her açıldığında sıfırlansın
+            formData = { city: "", business: "", company: "", points: "", fullname: "", email: "", phone: "" };
             renderStep();
             document.getElementById("requestModal").classList.remove("hidden");
          }
@@ -1520,16 +1547,17 @@
             const isBackdropClick = event.target === modal || event.target.id === "modalCloseButton";
             if (isBackdropClick) {
                modal.classList.add("hidden");
-               formData = { city: "", business: "", company: "", points: "" }; // kapandığında temizle
+               formData = { city: "", business: "", company: "", points: "", fullname: "", email: "", phone: "" };
             }
          }
 
-         function closeFinalModal(event) {
-            const modal = document.getElementById("finalModal");
-            const isBackdropClick = event.target === modal || event.target.id === "finalCloseButton";
-            if (isBackdropClick) {
-               modal.classList.add("hidden");
-            }
+         function submitForm() {
+            formData.fullname = document.getElementById("fullname").value.trim();
+            formData.email = document.getElementById("email").value.trim();
+            formData.phone = document.getElementById("phone").value.trim();
+            console.log("Form gönderildi:", formData);
+            alert("Заявка отправлена!");
+            closeReqModal({ target: document.getElementById("requestModal") });
          }
       </script>
       <script>
